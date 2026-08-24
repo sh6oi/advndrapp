@@ -718,6 +718,15 @@
     </div>
   </div>
 
+  <!-- مودال عرض المنتجات المكررة -->
+  <div id="repeated-products-modal" class="modal-overlay hidden">
+    <div class="modal">
+      <button class="close-btn" data-close="repeated-products-modal">✕</button>
+      <h2>📋 المنتجات المكررة</h2>
+      <div id="repeated-products-content"></div>
+    </div>
+  </div>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
     import { getDatabase, ref, push, set, get, update, remove, query, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-database.js";
@@ -1321,10 +1330,31 @@
             <button class="btn btn-black btn-sm" onclick="editOrder('${o.id}')">تعديل</button>
             <button class="btn btn-danger btn-sm" onclick="deleteOrder('${o.id}')">حذف</button>
             <button class="btn btn-outline btn-sm" onclick="window.open('${o.cartLink || '#'}','_blank')">رؤية السلة</button>
+            <button class="btn btn-outline btn-sm" onclick="viewRepeatedProducts('${o.id}')">عرض المنتجات المكررة</button>
           </td>
         </tr>
       `).join('');
     }
+
+    window.viewRepeatedProducts = (id) => {
+      const order = allOrders.find(o => o.id === id);
+      if (order) {
+        const products = order.repeatedProducts || [];
+        let html = '';
+        if (products.length === 0) {
+          html = '<p style="text-align:center; color:#888;">لا توجد منتجات مكررة</p>';
+        } else {
+          html = products.map(p => `
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--border);">
+              <button class="btn btn-black btn-sm" onclick="window.open('${p.url}','_blank')">عرض المنتج</button>
+              <span style="font-weight:700;">العدد: ${p.quantity || 1}</span>
+            </div>
+          `).join('');
+        }
+        document.getElementById('repeated-products-content').innerHTML = html;
+        document.getElementById('repeated-products-modal').classList.remove('hidden');
+      }
+    };
 
     window.editOrder = (id) => {
       const order = allOrders.find(o => o.id === id);
