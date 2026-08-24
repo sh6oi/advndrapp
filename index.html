@@ -183,7 +183,6 @@
 
     .layout { display: flex; flex: 1; min-height: calc(100vh - 70px); }
 
-    /* القائمة الجانبية */
     aside {
       background: var(--black);
       color: var(--white);
@@ -227,7 +226,6 @@
 
     main { flex: 1; padding: 20px; }
 
-    /* الأقسام */
     .section {
       background: var(--white);
       border-radius: var(--radius);
@@ -315,7 +313,6 @@
 
     .actions-cell { display: flex; gap: 8px; flex-wrap: wrap; }
 
-    /* المودالات */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -392,7 +389,6 @@
       box-shadow: var(--shadow-sm);
     }
 
-    /* حاسبة السعر */
     .calculator-box {
       max-width: 100%;
       margin: 0 auto;
@@ -414,10 +410,7 @@
     .calculator-result .label { color: #ccc; font-size: 13px; }
     .calculator-result .value { font-size: 32px; font-weight: 900; }
 
-    /* البحث التلقائي */
-    .autocomplete-wrapper {
-      position: relative;
-    }
+    .autocomplete-wrapper { position: relative; }
     .autocomplete-list {
       position: absolute;
       top: 100%;
@@ -433,19 +426,14 @@
       display: none;
       box-shadow: var(--shadow-md);
     }
-    .autocomplete-list.show {
-      display: block;
-    }
+    .autocomplete-list.show { display: block; }
     .autocomplete-item {
       padding: 10px 16px;
       cursor: pointer;
       transition: var(--transition);
     }
-    .autocomplete-item:hover {
-      background: var(--gray-bg);
-    }
+    .autocomplete-item:hover { background: var(--gray-bg); }
 
-    /* استجابة */
     @media (max-width: 992px) {
       aside { width: 240px; }
       main { padding: 15px; }
@@ -876,6 +864,12 @@
       else return Math.ceil(value / 1000) * 1000;
     }
 
+    // التحقق من تفرد رقم الهاتف
+    function isPhoneUnique(phone, excludeId) {
+      if (!phone) return true;
+      return !allUsers.some(u => u.id !== excludeId && (u.phone1 === phone || u.phone2 === phone));
+    }
+
     // ========== إدارة المستخدمين ==========
     document.getElementById('add-user-btn').addEventListener('click', () => openUserModal());
     document.getElementById('save-user-btn').addEventListener('click', saveUser);
@@ -930,12 +924,23 @@
         alert('رقم الهاتف الثاني يجب أن يتكون من 11 رقمًا');
         return;
       }
-      const editId = document.getElementById('save-user-btn').dataset.editId;
+      const editId = document.getElementById('save-user-btn').dataset.editId || null;
+      // التحقق من تفرد الهاتف الأول
+      if (!isPhoneUnique(phone1, editId)) {
+        alert('رقم الهاتف الأول موجود مسبقًا لدى مستخدم آخر');
+        return;
+      }
+      // التحقق من تفرد الهاتف الثاني إذا أُدخل
+      if (phone2 && !isPhoneUnique(phone2, editId)) {
+        alert('رقم الهاتف الثاني موجود مسبقًا لدى مستخدم آخر');
+        return;
+      }
       const userData = { code, instagram, phone1, phone2, province, address, blocked: false };
       try {
         if (editId) {
           await update(ref(db, 'users/' + editId), userData);
         } else {
+          userData.createdAt = new Date().toISOString(); // إضافة تاريخ الإنشاء للترتيب
           const newRef = push(ref(db, 'users'));
           await set(newRef, userData);
         }
@@ -947,6 +952,8 @@
     async function loadUsers() {
       const snapshot = await get(ref(db, 'users'));
       allUsers = snapshotToArray(snapshot);
+      // ترتيب المستخدمين من الأحدث إلى الأقدم
+      allUsers.sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
       renderUsersTable();
     }
 
@@ -1026,7 +1033,8 @@
         const newRef = push(ref(db, 'shipments'));
         await set(newRef, {
           shipmentNumber: number,
-          status: 'قيد التجهيز'
+          status: 'قيد التجهيز',
+          createdAt: new Date().toISOString()
         });
         document.getElementById('shipment-modal').classList.add('hidden');
         loadShipments();
@@ -1129,7 +1137,6 @@
       suggestionsDiv.classList.add('show');
     });
 
-    // إخفاء الاقتراحات عند النقر خارجها
     document.addEventListener('click', function(e) {
       if (!e.target.closest('.autocomplete-wrapper')) {
         suggestionsDiv.classList.remove('show');
@@ -1203,7 +1210,6 @@
       else products.forEach(p => addProductRow(p.url, p.quantity));
       document.getElementById('save-order-btn').dataset.editId = order ? order.id : '';
       updateFinalPreview();
-      // إخفاء الاقتراحات
       suggestionsDiv.classList.remove('show');
       suggestionsDiv.innerHTML = '';
     }
@@ -1251,7 +1257,6 @@
         alert('الرجاء ملء الحقول الأساسية');
         return;
       }
-      // التحقق من أن الكود موجود وغير محظور
       const userExists = allUsers.some(u => u.code === userCode && !u.blocked);
       if (!userExists) {
         alert('كود المستخدم غير صحيح أو محظور');
@@ -1281,6 +1286,7 @@
         if (editId) {
           await update(ref(db, 'orders/' + editId), orderData);
         } else {
+          orderData.createdAt = new Date().toISOString(); // إضافة تاريخ الإنشاء
           const newRef = push(ref(db, 'orders'));
           await set(newRef, orderData);
         }
@@ -1292,6 +1298,8 @@
     async function loadOrders() {
       const snapshot = await get(ref(db, 'orders'));
       allOrders = snapshotToArray(snapshot);
+      // ترتيب الطلبات من الأحدث إلى الأقدم
+      allOrders.sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
       renderOrdersTable();
     }
 
@@ -1312,6 +1320,7 @@
           <td class="actions-cell">
             <button class="btn btn-black btn-sm" onclick="editOrder('${o.id}')">تعديل</button>
             <button class="btn btn-danger btn-sm" onclick="deleteOrder('${o.id}')">حذف</button>
+            <button class="btn btn-outline btn-sm" onclick="window.open('${o.cartLink || '#'}','_blank')">رؤية السلة</button>
           </td>
         </tr>
       `).join('');
