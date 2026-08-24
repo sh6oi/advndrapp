@@ -414,6 +414,37 @@
     .calculator-result .label { color: #ccc; font-size: 13px; }
     .calculator-result .value { font-size: 32px; font-weight: 900; }
 
+    /* البحث التلقائي */
+    .autocomplete-wrapper {
+      position: relative;
+    }
+    .autocomplete-list {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      left: 0;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 12px 12px;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 100;
+      display: none;
+      box-shadow: var(--shadow-md);
+    }
+    .autocomplete-list.show {
+      display: block;
+    }
+    .autocomplete-item {
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .autocomplete-item:hover {
+      background: var(--gray-bg);
+    }
+
     /* استجابة */
     @media (max-width: 992px) {
       aside { width: 240px; }
@@ -655,9 +686,11 @@
       <button class="close-btn" data-close="order-modal">✕</button>
       <h2 id="order-modal-title">📋 إضافة طلب</h2>
       <div class="input-group">
-        <label>كود المستخدم (ابحث واختر)</label>
-        <input type="text" id="order-user-code" list="user-code-list" placeholder="اكتب للبحث عن كود المستخدم..." autocomplete="off">
-        <datalist id="user-code-list"></datalist>
+        <label>كود المستخدم (ابحث بالكتابة)</label>
+        <div class="autocomplete-wrapper">
+          <input type="text" id="order-user-code" placeholder="اكتب أول أحرف الكود..." autocomplete="off">
+          <div id="user-code-suggestions" class="autocomplete-list"></div>
+        </div>
       </div>
       <div class="input-group"><label>رقم الشحنة</label><select id="order-shipment-number"></select></div>
       <div class="input-group"><label>رقم الطلب</label><input type="text" id="order-number" readonly></div>
@@ -1063,6 +1096,46 @@
       updateFinalPreview();
     });
 
+    // البحث التلقائي عن كود المستخدم
+    const userCodeInput = document.getElementById('order-user-code');
+    const suggestionsDiv = document.getElementById('user-code-suggestions');
+
+    userCodeInput.addEventListener('input', function() {
+      const query = this.value.trim().toLowerCase();
+      if (query.length === 0) {
+        suggestionsDiv.classList.remove('show');
+        suggestionsDiv.innerHTML = '';
+        return;
+      }
+      const matches = allUsers.filter(u => !u.blocked && u.code.toLowerCase().startsWith(query));
+      if (matches.length === 0) {
+        suggestionsDiv.classList.remove('show');
+        suggestionsDiv.innerHTML = '';
+        return;
+      }
+      suggestionsDiv.innerHTML = '';
+      matches.forEach(u => {
+        const item = document.createElement('div');
+        item.className = 'autocomplete-item';
+        item.textContent = u.code;
+        item.addEventListener('mousedown', function(e) {
+          e.preventDefault();
+          userCodeInput.value = u.code;
+          suggestionsDiv.classList.remove('show');
+          suggestionsDiv.innerHTML = '';
+        });
+        suggestionsDiv.appendChild(item);
+      });
+      suggestionsDiv.classList.add('show');
+    });
+
+    // إخفاء الاقتراحات عند النقر خارجها
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.autocomplete-wrapper')) {
+        suggestionsDiv.classList.remove('show');
+      }
+    });
+
     function toggleDepositCustom() {
       const val = document.getElementById('order-deposit').value;
       document.getElementById('order-deposit-custom').classList.toggle('hidden', val !== 'custom');
@@ -1097,7 +1170,6 @@
     async function openOrderModal(order = null) {
       document.getElementById('order-modal').classList.remove('hidden');
       document.getElementById('order-modal-title').textContent = order ? '✏️ تعديل طلب' : '📋 إضافة طلب';
-      await loadUsersForDropdown();
       await loadShipmentsForDropdown();
       const orderNumber = order ? order.orderNumber : generateOrderNumber();
       document.getElementById('order-number').value = orderNumber;
@@ -1131,18 +1203,9 @@
       else products.forEach(p => addProductRow(p.url, p.quantity));
       document.getElementById('save-order-btn').dataset.editId = order ? order.id : '';
       updateFinalPreview();
-    }
-
-    async function loadUsersForDropdown() {
-      const snapshot = await get(ref(db, 'users'));
-      const users = snapshotToArray(snapshot).filter(u => !u.blocked);
-      const datalist = document.getElementById('user-code-list');
-      datalist.innerHTML = '';
-      users.forEach(u => {
-        const option = document.createElement('option');
-        option.value = u.code;
-        datalist.appendChild(option);
-      });
+      // إخفاء الاقتراحات
+      suggestionsDiv.classList.remove('show');
+      suggestionsDiv.innerHTML = '';
     }
 
     async function loadShipmentsForDropdown() {
@@ -1186,6 +1249,12 @@
       const deliveryFee = getDeliveryValue();
       if (!userCode || !shipmentNumber || !orderNumber || !cartLink) {
         alert('الرجاء ملء الحقول الأساسية');
+        return;
+      }
+      // التحقق من أن الكود موجود وغير محظور
+      const userExists = allUsers.some(u => u.code === userCode && !u.blocked);
+      if (!userExists) {
+        alert('كود المستخدم غير صحيح أو محظور');
         return;
       }
       const productRows = document.querySelectorAll('.product-row');
