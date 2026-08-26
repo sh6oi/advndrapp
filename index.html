@@ -4,6 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>فندر - لوحة الإدارة</title>
+
+  <!-- أيقونات الموقع -->
+  <link rel="icon" href="https://frightened-purple-f0xka6ph.edgeone.dev/file.png" type="image/png">
+  <link rel="apple-touch-icon" href="https://frightened-purple-f0xka6ph.edgeone.dev/file.png">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="فندر الإدارة">
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="./manifest.json">
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
 
@@ -183,6 +195,7 @@
 
     .layout { display: flex; flex: 1; min-height: calc(100vh - 70px); }
 
+    /* القائمة الجانبية */
     aside {
       background: var(--black);
       color: var(--white);
@@ -226,6 +239,7 @@
 
     main { flex: 1; padding: 20px; }
 
+    /* الأقسام */
     .section {
       background: var(--white);
       border-radius: var(--radius);
@@ -313,6 +327,7 @@
 
     .actions-cell { display: flex; gap: 8px; flex-wrap: wrap; }
 
+    /* المودالات */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -389,6 +404,7 @@
       box-shadow: var(--shadow-sm);
     }
 
+    /* حاسبة السعر */
     .calculator-box {
       max-width: 100%;
       margin: 0 auto;
@@ -434,6 +450,7 @@
     }
     .autocomplete-item:hover { background: var(--gray-bg); }
 
+    /* استجابة */
     @media (max-width: 992px) {
       aside { width: 240px; }
       main { padding: 15px; }
@@ -934,14 +951,12 @@
         return;
       }
       const editId = document.getElementById('save-user-btn').dataset.editId || null;
-      // التحقق من تفرد الهاتف الأول
       if (!isPhoneUnique(phone1, editId)) {
-        alert('رقم الهاتف الأول موجود مسبقًا لدى مستخدم آخر');
+        alert('هذا الرقم مستخدم سابقًا');
         return;
       }
-      // التحقق من تفرد الهاتف الثاني إذا أُدخل
       if (phone2 && !isPhoneUnique(phone2, editId)) {
-        alert('رقم الهاتف الثاني موجود مسبقًا لدى مستخدم آخر');
+        alert('هذا الرقم مستخدم سابقًا');
         return;
       }
       const userData = { code, instagram, phone1, phone2, province, address, blocked: false };
@@ -949,7 +964,7 @@
         if (editId) {
           await update(ref(db, 'users/' + editId), userData);
         } else {
-          userData.createdAt = new Date().toISOString(); // إضافة تاريخ الإنشاء للترتيب
+          userData.createdAt = new Date().toISOString();
           const newRef = push(ref(db, 'users'));
           await set(newRef, userData);
         }
@@ -961,7 +976,6 @@
     async function loadUsers() {
       const snapshot = await get(ref(db, 'users'));
       allUsers = snapshotToArray(snapshot);
-      // ترتيب المستخدمين من الأحدث إلى الأقدم
       allUsers.sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
       renderUsersTable();
     }
@@ -1113,7 +1127,6 @@
       updateFinalPreview();
     });
 
-    // البحث التلقائي عن كود المستخدم
     const userCodeInput = document.getElementById('order-user-code');
     const suggestionsDiv = document.getElementById('user-code-suggestions');
 
@@ -1295,7 +1308,7 @@
         if (editId) {
           await update(ref(db, 'orders/' + editId), orderData);
         } else {
-          orderData.createdAt = new Date().toISOString(); // إضافة تاريخ الإنشاء
+          orderData.createdAt = new Date().toISOString();
           const newRef = push(ref(db, 'orders'));
           await set(newRef, orderData);
         }
@@ -1307,7 +1320,6 @@
     async function loadOrders() {
       const snapshot = await get(ref(db, 'orders'));
       allOrders = snapshotToArray(snapshot);
-      // ترتيب الطلبات من الأحدث إلى الأقدم
       allOrders.sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''));
       renderOrdersTable();
     }
@@ -1390,6 +1402,19 @@
       await loadUsers();
       await loadShipments();
       await loadOrders();
+    }
+  </script>
+
+  <!-- تسجيل Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('./sw.js').then(function(registration) {
+          console.log('Service Worker registered with scope:', registration.scope);
+        }).catch(function(error) {
+          console.error('Service Worker registration failed:', error);
+        });
+      });
     }
   </script>
 </body>
