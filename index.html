@@ -120,6 +120,164 @@
     .autocomplete-list.show { display: block; }
     .autocomplete-item { padding: 10px 16px; cursor: pointer; transition: var(--transition); }
     .autocomplete-item:hover { background: var(--gray-bg); }
+
+    /* تحسينات الواجهة */
+    body {
+      background:
+        radial-gradient(circle at 10% 0%, rgba(251,192,45,0.10), transparent 28%),
+        linear-gradient(180deg, #f7f7f8 0%, #eeeeef 100%);
+      color: #171717;
+    }
+    header {
+      background: linear-gradient(135deg, #080808 0%, #171717 60%, #232323 100%);
+      border-bottom: 1px solid rgba(251,192,45,.24);
+    }
+    aside {
+      background: linear-gradient(180deg, #0a0a0a 0%, #151515 100%);
+      border-left: 1px solid rgba(251,192,45,.12);
+    }
+    .section {
+      border: 1px solid rgba(0,0,0,.055);
+      box-shadow: 0 14px 38px rgba(0,0,0,.075);
+    }
+    .table-container {
+      box-shadow: 0 8px 24px rgba(0,0,0,.04);
+    }
+    th {
+      background: linear-gradient(135deg, #090909, #202020);
+    }
+    tbody tr { transition: var(--transition); }
+    tbody tr:hover { transform: translateY(-1px); }
+    .btn-outline {
+      border: 1.5px solid #d9d9d9;
+      background: #fff;
+      color: #222;
+    }
+    .btn-outline:hover {
+      border-color: var(--yellow);
+      background: #fff9e6;
+      color: #111;
+      transform: translateY(-1px);
+    }
+    .btn:disabled {
+      opacity: .52;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+    .order-count-panel {
+      margin: 8px 0 18px;
+      padding: 14px;
+      border: 1px solid #ececec;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #fffdf6 0%, #fff 100%);
+    }
+    .order-count-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .count-stat {
+      padding: 12px 10px;
+      border-radius: 13px;
+      background: #fff;
+      border: 1px solid #ededed;
+      text-align: center;
+      min-width: 0;
+    }
+    .count-stat .count-label {
+      display: block;
+      color: #777;
+      font-size: 11px;
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+    .count-stat .count-value {
+      display: block;
+      font-size: 20px;
+      font-weight: 900;
+      color: #111;
+    }
+    .count-stat.highlight {
+      background: #111;
+      border-color: #111;
+    }
+    .count-stat.highlight .count-label { color: #cfcfcf; }
+    .count-stat.highlight .count-value { color: var(--yellow); }
+    .shipment-limit-note {
+      margin-top: 10px;
+      padding: 9px 11px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #f4f7fb;
+      color: #47617b;
+      border: 1px solid #e1e9f1;
+    }
+    .shipment-limit-note.danger {
+      background: #fff0f0;
+      color: #b42318;
+      border-color: #ffc9c9;
+    }
+    .shipment-product-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: #f8f8f8;
+      border: 1px solid #e7e7e7;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .shipment-product-badge.near-limit {
+      background: #fff8e1;
+      border-color: #ffe082;
+      color: #8a5a00;
+    }
+    .shipment-product-badge.full {
+      background: #ffebee;
+      border-color: #ffcdd2;
+      color: #b71c1c;
+    }
+    .order-shipment-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+    .order-unique-count {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: #fff8e1;
+      border: 1px solid #ffe082;
+      color: #7a5200;
+      font-size: 11px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .field-hint {
+      display: block;
+      color: #858585;
+      font-size: 11px;
+      margin-top: 5px;
+      line-height: 1.7;
+    }
+    .product-row {
+      padding: 9px;
+      border-radius: 12px;
+      border: 1px solid #ededed;
+      background: #fafafa;
+    }
+    .modal {
+      border: 1px solid rgba(255,255,255,.5);
+    }
+    @media (max-width: 600px) {
+      .order-count-grid { grid-template-columns: 1fr; }
+    }
     @media (max-width: 992px) { aside { width: 240px; } main { padding: 15px; } .section { padding: 15px; } }
     @media (max-width: 768px) { .hamburger { display: flex; } .layout { flex-direction: column; } aside { position: fixed; right: -280px; top: 66px; bottom: 0; z-index: 999; transition: right 0.3s ease; width: 280px; height: auto; } aside.open { right: 0; } main { padding: 10px; } .section { padding: 12px; } .input-group.row { flex-direction: column; } .modal { padding: 15px; } .modal .close-btn { top: 12px; left: 12px; } .login-card { padding: 30px 20px; } .section-header { flex-direction: column; align-items: stretch; } .section-header .btn { width: 100%; } .toolbar { flex-direction: column; align-items: stretch; } .search-box { min-width: auto; } .btn { padding: 10px 16px; font-size: 14px; } .section-title { font-size: 20px; } header .brand { font-size: 18px; } .product-row { flex-wrap: wrap; } .product-row .qty { width: 100%; } }
     @media (max-width: 480px) { header { padding: 10px 12px; } .hamburger { width: 38px; height: 38px; font-size: 20px; } .logout-btn { padding: 6px 12px; font-size: 12px; } .modal { border-radius: 14px; } .badge { font-size: 11px; padding: 3px 10px; } th, td { padding: 10px; font-size: 12px; } }
@@ -186,7 +344,7 @@
           </div>
           <div class="table-container">
             <table id="shipments-table">
-              <thead><tr><th>رقم الشحنة</th><th>الحالة</th><th>السعر الإجمالي</th><th>إجراءات</th></tr></thead>
+              <thead><tr><th>رقم الشحنة</th><th>الحالة</th><th>السعر الإجمالي</th><th>المنتجات بدون المكرر</th><th>إجراءات</th></tr></thead>
               <tbody id="shipments-tbody"></tbody>
             </table>
           </div>
@@ -316,10 +474,34 @@
         <input type="number" id="order-delivery-custom" class="hidden" placeholder="مبلغ التوصيل" min="0" step="1000" style="margin-top:8px;">
       </div>
       <div class="input-group">
+        <label>عدد المنتجات بدون المكرر</label>
+        <input type="number" id="order-unique-products-count" min="0" max="99" step="1" inputmode="numeric" placeholder="مثال: 12">
+        <span class="field-hint">اكتب عدد المنتجات غير المكررة في هذا الطلب. سيتم جمعها مع كميات المنتجات المكررة لحساب إجمالي منتجات الشحنة.</span>
+      </div>
+      <div class="input-group">
         <label>المنتجات المكررة</label>
         <div id="products-container" class="products-container"></div>
-        <button type="button" class="btn btn-black btn-sm btn-add-product" id="add-product-row">+ إضافة منتج</button>
+        <button type="button" class="btn btn-black btn-sm btn-add-product" id="add-product-row">+ إضافة منتج مكرر</button>
       </div>
+
+      <div class="order-count-panel">
+        <div class="order-count-grid">
+          <div class="count-stat">
+            <span class="count-label">بدون المكرر في هذا الطلب</span>
+            <span class="count-value" id="order-products-total-preview">0</span>
+          </div>
+          <div class="count-stat">
+            <span class="count-label">بدون المكرر في الشحنة</span>
+            <span class="count-value" id="shipment-products-existing-preview">0</span>
+          </div>
+          <div class="count-stat highlight">
+            <span class="count-label">إجمالي بدون المكرر بعد الحفظ</span>
+            <span class="count-value"><span id="shipment-products-total-preview">0</span> / 99</span>
+          </div>
+        </div>
+        <div class="shipment-limit-note" id="shipment-limit-note">الحد الأقصى لكل شحنة هو 99 منتجًا بدون المكرر.</div>
+      </div>
+
       <div class="final-price-box">السعر النهائي: <span id="order-final-preview">0</span> د.ع</div>
       <button class="btn btn-yellow" id="save-order-btn">حفظ</button>
     </div>
@@ -661,6 +843,8 @@
       const tbody = document.getElementById('shipments-tbody');
       tbody.innerHTML = allShipments.map(s => {
         const total = calculateShipmentTotal(s.shipmentNumber);
+        const productsCount = calculateShipmentProductsCount(s.shipmentNumber);
+        const productBadgeClass = productsCount >= 99 ? 'full' : (productsCount >= 85 ? 'near-limit' : '');
         return `
           <tr>
             <td>${s.shipmentNumber}</td>
@@ -673,6 +857,7 @@
               </select>
             </td>
             <td>${formatNumber(total)} د.ع</td>
+            <td><span class="shipment-product-badge ${productBadgeClass}">📦 ${productsCount} / 99 بدون المكرر</span></td>
             <td><button class="btn btn-danger btn-sm" onclick="deleteShipment('${s.id}')">حذف</button></td>
           </tr>
         `;
@@ -694,6 +879,8 @@
     document.getElementById('order-deposit-custom').addEventListener('input', updateFinalPreview);
     document.getElementById('order-delivery').addEventListener('change', updateFinalPreview);
     document.getElementById('order-delivery-custom').addEventListener('input', updateFinalPreview);
+    document.getElementById('order-unique-products-count').addEventListener('input', updateProductCountPreview);
+    document.getElementById('order-shipment-number').addEventListener('change', updateProductCountPreview);
 
     document.getElementById('order-cart-link').addEventListener('input', (e) => {
       const cleaned = sanitizeHttps(e.target.value);
@@ -744,22 +931,39 @@
       row.className = 'product-row';
       row.innerHTML = `
         <input type="text" class="product-url" placeholder="رابط المنتج https://..." value="${url}">
-        <input type="number" class="qty product-qty" placeholder="العدد" min="1" value="${qty}">
-        <button type="button" class="remove-product">✕</button>
+        <input type="number" class="qty product-qty" placeholder="العدد" min="1" step="1" value="${qty}">
+        <button type="button" class="remove-product" title="حذف المنتج">✕</button>
       `;
       const urlInput = row.querySelector('.product-url');
+      const qtyInput = row.querySelector('.product-qty');
+
       urlInput.addEventListener('input', (e) => {
         const cleaned = sanitizeHttps(e.target.value);
         if (cleaned !== e.target.value) e.target.value = cleaned;
+        updateProductCountPreview();
       });
-      row.querySelector('.remove-product').addEventListener('click', () => row.remove());
+
+      qtyInput.addEventListener('input', () => {
+        let value = parseInt(qtyInput.value) || 1;
+        if (value < 1) value = 1;
+        qtyInput.value = value;
+        updateProductCountPreview();
+      });
+
+      row.querySelector('.remove-product').addEventListener('click', () => {
+        row.remove();
+        updateProductCountPreview();
+      });
+
       container.appendChild(row);
+      updateProductCountPreview();
     }
 
     async function openOrderModal(order = null) {
       document.getElementById('order-modal').classList.remove('hidden');
       document.getElementById('order-modal-title').textContent = order ? '✏️ تعديل طلب' : '📋 إضافة طلب';
-      await loadShipmentsForDropdown();
+      document.getElementById('save-order-btn').dataset.editId = order ? order.id : '';
+      await loadShipmentsForDropdown(order ? order.id : '');
       const orderNumber = order ? order.orderNumber : generateOrderNumber();
       document.getElementById('order-number').value = orderNumber;
       document.getElementById('order-user-code').value = order ? order.userCode : '';
@@ -767,6 +971,7 @@
       document.getElementById('order-cart-link').value = order ? order.cartLink : '';
       document.getElementById('order-price-usd').value = order ? order.priceUSD : '';
       document.getElementById('order-original-price').value = order ? order.originalPriceIQD : '';
+      document.getElementById('order-unique-products-count').value = order ? (Number(order.uniqueProductsCount) || 0) : '';
       const depositSelect = document.getElementById('order-deposit');
       if (order && ![5000, 10000, 25000, 50000].includes(order.deposit)) {
         depositSelect.value = 'custom';
@@ -790,18 +995,26 @@
       const products = order ? order.repeatedProducts || [] : [];
       if (products.length === 0) addProductRow();
       else products.forEach(p => addProductRow(p.url, p.quantity));
-      document.getElementById('save-order-btn').dataset.editId = order ? order.id : '';
       updateFinalPreview();
+      updateProductCountPreview();
       suggestionsDiv.classList.remove('show');
       suggestionsDiv.innerHTML = '';
     }
 
-    async function loadShipmentsForDropdown() {
+    async function loadShipmentsForDropdown(excludeOrderId = '') {
       const snapshot = await get(ref(db, 'shipments'));
       const shipments = snapshotToArray(snapshot);
       const select = document.getElementById('order-shipment-number');
       select.innerHTML = '<option value="">اختر رقم الشحنة</option>';
-      shipments.forEach(s => { select.innerHTML += `<option value="${s.shipmentNumber}">${s.shipmentNumber}</option>`; });
+
+      shipments.forEach(s => {
+        const used = calculateShipmentProductsCount(s.shipmentNumber, excludeOrderId);
+        const remaining = Math.max(0, 99 - used);
+        const option = document.createElement('option');
+        option.value = s.shipmentNumber;
+        option.textContent = `${s.shipmentNumber} — ${used}/99 بدون المكرر (متبقي ${remaining})`;
+        select.appendChild(option);
+      });
     }
 
     function getDepositValue() {
@@ -815,6 +1028,72 @@
       return parseFloat(select.value) || 0;
     }
 
+    function getRepeatedProductsCountFromOrder(order) {
+      return (order.repeatedProducts || []).reduce((sum, product) => {
+        const quantity = parseInt(product.quantity) || 0;
+        return sum + Math.max(0, quantity);
+      }, 0);
+    }
+
+    function getOrderProductsCount(order) {
+      if (Number.isFinite(Number(order.totalProductsCount))) {
+        return Math.max(0, parseInt(order.totalProductsCount) || 0);
+      }
+      const uniqueCount = Math.max(0, parseInt(order.uniqueProductsCount) || 0);
+      return uniqueCount + getRepeatedProductsCountFromOrder(order);
+    }
+
+    function calculateShipmentProductsCount(shipmentNumber, excludeOrderId = '') {
+      if (!shipmentNumber) return 0;
+      return allOrders.reduce((total, order) => {
+        if (order.shipmentNumber !== shipmentNumber || order.id === excludeOrderId) return total;
+        return total + Math.max(0, parseInt(order.uniqueProductsCount) || 0);
+      }, 0);
+    }
+
+    function getDraftRepeatedProductsCount() {
+      let total = 0;
+      document.querySelectorAll('.product-row').forEach(row => {
+        const url = sanitizeHttps(row.querySelector('.product-url').value);
+        if (!url) return;
+        const quantity = Math.max(1, parseInt(row.querySelector('.product-qty').value) || 1);
+        total += quantity;
+      });
+      return total;
+    }
+
+    function updateProductCountPreview() {
+      const uniqueInput = document.getElementById('order-unique-products-count');
+      const uniqueCount = Math.max(0, parseInt(uniqueInput.value) || 0);
+
+      const shipmentNumber = document.getElementById('order-shipment-number').value;
+      const editId = document.getElementById('save-order-btn').dataset.editId || '';
+      const existingInShipment = calculateShipmentProductsCount(shipmentNumber, editId);
+      const projectedShipmentTotal = existingInShipment + uniqueCount;
+      const remaining = Math.max(0, 99 - projectedShipmentTotal);
+
+      document.getElementById('order-products-total-preview').textContent = uniqueCount;
+      document.getElementById('shipment-products-existing-preview').textContent = existingInShipment;
+      document.getElementById('shipment-products-total-preview').textContent = projectedShipmentTotal;
+
+      const note = document.getElementById('shipment-limit-note');
+      const saveBtn = document.getElementById('save-order-btn');
+      const overLimit = uniqueCount > 99 || projectedShipmentTotal > 99;
+
+      note.classList.toggle('danger', overLimit);
+      if (!shipmentNumber) {
+        note.textContent = 'اختر رقم الشحنة لرؤية السعة المتبقية. الحد الأقصى هو 99 منتجًا بدون المكرر فقط.';
+      } else if (overLimit) {
+        const overBy = projectedShipmentTotal - 99;
+        note.textContent = `لا يمكن الحفظ: عدد المنتجات بدون المكرر سيجعل الشحنة تتجاوز الحد بمقدار ${overBy} منتج.`;
+      } else {
+        note.textContent = `يمكن الحفظ. المتبقي للشحنة: ${remaining} منتج بدون المكرر. المنتجات المكررة لا تدخل في حد 99.`;
+      }
+
+      saveBtn.disabled = overLimit;
+      return { uniqueCount, existingInShipment, projectedShipmentTotal, overLimit };
+    }
+
     function updateFinalPreview() {
       const original = parseFloat(document.getElementById('order-original-price').value) || 0;
       const deposit = getDepositValue();
@@ -824,7 +1103,8 @@
     }
 
     async function saveOrder() {
-      const editId = document.getElementById('save-order-btn').dataset.editId;
+      const saveBtn = document.getElementById('save-order-btn');
+      const editId = saveBtn.dataset.editId || '';
       const userCode = document.getElementById('order-user-code').value.trim();
       const shipmentNumber = document.getElementById('order-shipment-number').value;
       const orderNumber = document.getElementById('order-number').value;
@@ -833,31 +1113,114 @@
       const originalPriceIQD = parseFloat(document.getElementById('order-original-price').value) || 0;
       const deposit = getDepositValue();
       const deliveryFee = getDeliveryValue();
+
       if (!userCode || !shipmentNumber || !orderNumber || !cartLink) {
         alert('الرجاء ملء الحقول الأساسية');
         return;
       }
+
+      const uniqueProductsInput = document.getElementById('order-unique-products-count');
+      if (uniqueProductsInput.value === '') {
+        alert('الرجاء إدخال عدد المنتجات بدون المكرر');
+        uniqueProductsInput.focus();
+        return;
+      }
+
+      const uniqueProductsCount = parseInt(uniqueProductsInput.value);
+      if (!Number.isInteger(uniqueProductsCount) || uniqueProductsCount < 0 || uniqueProductsCount > 99) {
+        alert('عدد المنتجات بدون المكرر يجب أن يكون رقمًا صحيحًا من 0 إلى 99');
+        uniqueProductsInput.focus();
+        return;
+      }
+
       const userExists = allUsers.some(u => u.code === userCode && !u.blocked);
-      if (!userExists) { alert('كود المستخدم غير صحيح أو محظور'); return; }
+      if (!userExists) {
+        alert('كود المستخدم غير صحيح أو محظور');
+        return;
+      }
+
       const productRows = document.querySelectorAll('.product-row');
       const repeatedProducts = [];
-      productRows.forEach(row => {
+      let repeatedProductsCount = 0;
+
+      for (const row of productRows) {
         const url = sanitizeHttps(row.querySelector('.product-url').value);
-        const quantity = parseInt(row.querySelector('.product-qty').value) || 1;
-        if (url) repeatedProducts.push({ url, quantity });
-      });
-      const finalPriceIQD = originalPriceIQD - deposit + deliveryFee;
-      const orderData = { userCode, shipmentNumber, orderNumber, cartLink, priceUSD, originalPriceIQD, deposit, deliveryFee, finalPriceIQD, repeatedProducts };
+        if (!url) continue;
+
+        const quantity = parseInt(row.querySelector('.product-qty').value);
+        if (!Number.isInteger(quantity) || quantity < 1) {
+          alert('كمية كل منتج مكرر يجب أن تكون 1 أو أكثر');
+          row.querySelector('.product-qty').focus();
+          return;
+        }
+
+        repeatedProducts.push({ url, quantity });
+        repeatedProductsCount += quantity;
+      }
+
+      const totalProductsCount = uniqueProductsCount + repeatedProductsCount;
+      if (totalProductsCount < 1) {
+        alert('يجب أن يحتوي الطلب على منتج واحد على الأقل');
+        return;
+      }
+
+      // نقرأ الطلبات مباشرة من قاعدة البيانات قبل فحص الحد حتى لا نعتمد على بيانات قديمة في الواجهة.
       try {
+        const freshOrdersSnapshot = await get(ref(db, 'orders'));
+        allOrders = snapshotToArray(freshOrdersSnapshot);
+      } catch (e) {
+        console.error(e);
+        alert('تعذر التحقق من سعة الشحنة. حاول مرة أخرى.');
+        return;
+      }
+
+      // حد 99 يعتمد فقط على عدد المنتجات بدون المكرر.
+      // عند التعديل نستثني الطلب الحالي من مجموع الشحنة ثم نضيف قيمته الجديدة.
+      const shipmentProductsBeforeThisOrder = calculateShipmentProductsCount(shipmentNumber, editId);
+      const shipmentProductsAfterSave = shipmentProductsBeforeThisOrder + uniqueProductsCount;
+
+      if (shipmentProductsAfterSave > 99) {
+        const remaining = Math.max(0, 99 - shipmentProductsBeforeThisOrder);
+        alert(`لا يمكن إضافة هذا الطلب إلى الشحنة ${shipmentNumber}. المتبقي فيها ${remaining} منتج بدون المكرر فقط، بينما هذا الطلب يحتوي على ${uniqueProductsCount} منتج بدون المكرر.`);
+        updateProductCountPreview();
+        return;
+      }
+
+      const finalPriceIQD = originalPriceIQD - deposit + deliveryFee;
+      const orderData = {
+        userCode,
+        shipmentNumber,
+        orderNumber,
+        cartLink,
+        priceUSD,
+        originalPriceIQD,
+        deposit,
+        deliveryFee,
+        finalPriceIQD,
+        uniqueProductsCount,
+        repeatedProducts,
+        repeatedProductsCount,
+        totalProductsCount
+      };
+
+      try {
+        saveBtn.disabled = true;
         if (editId) {
           await update(ref(db, 'orders/' + editId), orderData);
         } else {
           orderData.createdAt = new Date().toISOString();
           await set(push(ref(db, 'orders')), orderData);
         }
+
         document.getElementById('order-modal').classList.add('hidden');
-        loadOrders();
-      } catch (e) { console.error(e); alert('خطأ في حفظ الطلب'); }
+        await loadOrders();
+        renderShipmentsTable();
+      } catch (e) {
+        console.error(e);
+        alert('خطأ في حفظ الطلب');
+      } finally {
+        saveBtn.disabled = false;
+      }
     }
 
     async function loadOrders() {
@@ -879,7 +1242,12 @@
         <tr>
           <td><button class="btn btn-outline btn-sm" onclick="viewOrderDetails('${o.id}')">${o.orderNumber}</button></td>
           <td><button class="btn btn-outline btn-sm" onclick="showUserInfoByCode('${o.userCode}')">${o.userCode}</button></td>
-          <td>${o.shipmentNumber}</td>
+          <td>
+            <span class="order-shipment-wrap">
+              <span>${o.shipmentNumber}</span>
+              <span class="order-unique-count">📦 ${Number(o.uniqueProductsCount) || 0} بدون المكرر</span>
+            </span>
+          </td>
           <td>${formatNumber(o.finalPriceIQD || 0)} د.ع</td>
           <td class="actions-cell">
             <button class="btn btn-black btn-sm" onclick="editOrder('${o.id}')">تعديل</button>
@@ -910,6 +1278,9 @@
           <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border);"><span>العربون</span><span>${formatNumber(order.deposit || 0)} د.ع</span></div>
           <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border);"><span>سعر التوصيل</span><span>${formatNumber(order.deliveryFee || 0)} د.ع</span></div>
           <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border);"><span>السعر النهائي</span><span>${formatNumber(order.finalPriceIQD || 0)} د.ع</span></div>
+          <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border);"><span>المنتجات بدون المكرر</span><span>${Number(order.uniqueProductsCount) || 0}</span></div>
+          <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border);"><span>عدد المنتجات المكررة</span><span>${getRepeatedProductsCountFromOrder(order)}</span></div>
+          <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border);"><span>إجمالي منتجات الطلب</span><span><strong>${getOrderProductsCount(order)}</strong></span></div>
           <div style="margin-top:15px;"><strong>المنتجات المكررة:</strong></div>
           ${products || '<p>لا يوجد</p>'}
         `;
@@ -938,7 +1309,13 @@
     };
 
     window.editOrder = (id) => { const order = allOrders.find(o => o.id === id); if (order) openOrderModal(order); };
-    window.deleteOrder = async (id) => { if (confirm('حذف هذا الطلب؟')) { await remove(ref(db, 'orders/' + id)); loadOrders(); } };
+    window.deleteOrder = async (id) => {
+      if (confirm('حذف هذا الطلب؟')) {
+        await remove(ref(db, 'orders/' + id));
+        await loadOrders();
+        renderShipmentsTable();
+      }
+    };
 
     // ========== حساب السعر ==========
     document.getElementById('admin-usd-input').addEventListener('input', () => {
@@ -956,8 +1333,8 @@
 
     async function loadAllData() {
       await loadUsers();
-      await loadShipments();
       await loadOrders();
+      await loadShipments();
     }
   </script>
 
