@@ -888,11 +888,11 @@
     });
 
     document.getElementById('order-price-usd').addEventListener('input', (e) => {
-      const usd = parseFloat(e.target.value) || 0;
-      const iqd = usd * 1320;
-      document.getElementById('order-original-price').value = roundToNearest1000(iqd);
-      updateFinalPreview();
-    });
+    const usd = parseFloat(e.target.value) || 0;
+    const iqd = usd * 1520;
+    document.getElementById('order-original-price').value = iqd;
+    updateFinalPreview();
+});
 
     const userCodeInput = document.getElementById('order-user-code');
     const suggestionsDiv = document.getElementById('user-code-suggestions');
@@ -1319,23 +1319,23 @@
 
     // ========== حساب السعر ==========
     document.getElementById('admin-usd-input').addEventListener('input', () => {
-      const usd = parseFloat(document.getElementById('admin-usd-input').value) || 0;
-      const iqd = usd * 1320;
-      document.getElementById('admin-iqd-result').textContent = formatNumber(roundToNearest1000(iqd));
-    });
+    const usd = parseFloat(document.getElementById('admin-usd-input').value) || 0;
+    const iqd = usd * 1520;
+    document.getElementById('admin-iqd-result').textContent = formatNumber(iqd);
+});
 
-    document.querySelectorAll('[data-close]').forEach(btn => {
-      btn.addEventListener('click', () => { document.getElementById(btn.dataset.close).classList.add('hidden'); });
-    });
-    document.querySelectorAll('.modal-overlay').forEach(overlay => {
-      overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.add('hidden'); });
-    });
+document.querySelectorAll('[data-close]').forEach(btn => {
+    btn.addEventListener('click', () => { document.getElementById(btn.dataset.close).classList.add('hidden'); });
+});
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.add('hidden'); });
+});
 
-    async function loadAllData() {
-      await loadUsers();
-      await loadOrders();
-      await loadShipments();
-    }
+async function loadAllData() {
+    await loadUsers();
+    await loadOrders();
+    await loadShipments();
+}
   </script>
 
   <!-- تسجيل Service Worker -->
